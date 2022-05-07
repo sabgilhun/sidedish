@@ -2,6 +2,8 @@ package com.example.sidedish.di
 
 import com.example.sidedish.data.datasource.AuthDataSource
 import com.example.sidedish.data.datasource.AuthDataSourceImpl
+import com.example.sidedish.data.datasource.MenuListDataSource
+import com.example.sidedish.data.datasource.MenuListDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -14,5 +16,13 @@ abstract class DataSourceModule {
 
     @Singleton
     @Binds
-    abstract fun bindAuthDataSource(authDataSourceImpl: AuthDataSourceImpl): AuthDataSource
+    abstract fun bindAuthDataSource(
+        authDataSourceImpl: AuthDataSourceImpl
+    ): AuthDataSource
+
+    @Singleton
+    @Binds
+    abstract fun bindMenuListDataSource(
+        menuListDataSourceImpl: MenuListDataSourceImpl
+    ): MenuListDataSource
 }

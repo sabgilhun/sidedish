@@ -17,64 +17,73 @@ import com.example.sidedish.data.Menu
 import com.example.sidedish.data.MenuModel
 import com.example.sidedish.databinding.ItemHeaderBinding
 import com.example.sidedish.databinding.ItemMenuListBinding
+import com.example.sidedish.model.MenuListItem
 import com.example.sidedish.ui.MenuItemClickListener
+import java.lang.IllegalArgumentException
 import java.text.DecimalFormat
 
-private const val HEADER = 0
-private const val ITEM = 1
+class MenuAdapter(
+    private val onItemClicked: (Int) -> Unit
+) : ListAdapter<MenuListItem, RecyclerView.ViewHolder>(MenuDiffUtil) {
 
-class MenuPageAdapter(private val listener: MenuItemClickListener) :
-    ListAdapter<MenuModel, RecyclerView.ViewHolder>(MenuDiffUtil) {
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): RecyclerView.ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
             HEADER -> HeaderViewHolder(
-                ItemHeaderBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
-                )
+                ItemHeaderBinding.inflate(inflater, parent, false)
             )
-            else -> MenuViewHolder(
-                ItemMenuListBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
-                )
+            ITEM -> MenuViewHolder(
+                ItemMenuListBinding.inflate(inflater, parent, false),
+                onItemClicked
             )
+            else -> throw IllegalArgumentException("Invalid viewType")
         }
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: RecyclerView.ViewHolder,
+        position: Int
+    ) {
+        val item = getItem(position)
         when (holder) {
-            is HeaderViewHolder -> {
-                holder.bind(getItem(position) as Category)
-            }
-            is MenuViewHolder -> {
-                holder.bind(getItem(position) as Menu)
-            }
+            is HeaderViewHolder -> holder.bind(item as MenuListItem.Category)
+            is MenuViewHolder -> holder.bind(item as MenuListItem.Menu)
         }
     }
 
     override fun getItemViewType(position: Int): Int {
         return when (currentList[position]) {
-            is Category -> HEADER
-            is Menu -> ITEM
+            is MenuListItem.Category -> HEADER
+            is MenuListItem.Menu -> ITEM
         }
     }
 
-    inner class MenuViewHolder(private val binding: ItemMenuListBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    class HeaderViewHolder(
+        private val binding: ItemHeaderBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(menu: Menu) {
-            with(binding) {
-                bindData = menu
-                menu.discountPolicy?.let { setBadge(it) }
-            }
+        fun bind(header: MenuListItem.Category) {
+//            binding.tvMenuListLabel.text = header.category
+        }
+    }
 
-            itemView.setOnClickListener {
-                menu.id?.let { key -> listener.itemClickCallback(key) }
-            }
+    class MenuViewHolder(
+        private val binding: ItemMenuListBinding,
+        private val onItemClicked: (Int) -> Unit
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(menu: MenuListItem.Menu) {
+//            with(binding) {
+//                bindData = menu
+//                menu.discountPolicy?.let { setBadge(it) }
+//            }
+//
+//            itemView.setOnClickListener {
+//                menu.id?.let { key -> onItemClicked(key) }
+//            }
         }
 
         private fun setSalePrice(rate: Int?, price: Int?): Int {
@@ -109,25 +118,21 @@ class MenuPageAdapter(private val listener: MenuItemClickListener) :
         }
     }
 
-    inner class HeaderViewHolder(private val binding: ItemHeaderBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    private object MenuDiffUtil : DiffUtil.ItemCallback<MenuListItem>() {
 
-        fun bind(header: Category) {
-            binding.tvMenuListLabel.text = header.category
-        }
+        override fun areItemsTheSame(
+            oldItem: MenuListItem,
+            newItem: MenuListItem
+        ): Boolean = oldItem.hashCode() == newItem.hashCode()
 
+        override fun areContentsTheSame(
+            oldItem: MenuListItem,
+            newItem: MenuListItem
+        ): Boolean = oldItem == newItem
     }
 
-    object MenuDiffUtil : DiffUtil.ItemCallback<MenuModel>() {
-
-        override fun areItemsTheSame(oldItem: MenuModel, newItem: MenuModel): Boolean {
-            return oldItem.hashCode() == newItem.hashCode()
-        }
-
-        override fun areContentsTheSame(oldItem: MenuModel, newItem: MenuModel): Boolean {
-            return oldItem == newItem
-        }
-
+    companion object {
+        private const val HEADER = 0
+        private const val ITEM = 1
     }
-
 }

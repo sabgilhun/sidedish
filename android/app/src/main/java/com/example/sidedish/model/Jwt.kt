@@ -1,4 +1,4 @@
-package com.example.sidedish.data.model
+package com.example.sidedish.model
 
 data class Jwt(
     val accessToken: String,

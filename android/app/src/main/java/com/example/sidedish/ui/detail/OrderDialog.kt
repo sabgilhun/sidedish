@@ -16,7 +16,7 @@ class OrderDialog : DialogFragment() {
                 .setMessage("주문이 완료되었습니다")
                 .setPositiveButton("확인",
                     DialogInterface.OnClickListener { _, _ ->
-                        findNavController().navigate(R.id.action_detailFragment_to_homeFragment)
+                        findNavController().navigate(R.id.action_detailFragment_to_menuFragment)
                     })
                 builder.create()
         } ?: throw IllegalStateException("Fragment is not occurred")

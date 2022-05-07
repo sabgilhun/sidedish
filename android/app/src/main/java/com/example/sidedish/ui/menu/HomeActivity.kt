@@ -2,8 +2,6 @@ package com.example.sidedish.ui.menu
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -11,7 +9,6 @@ import androidx.navigation.findNavController
 import com.example.sidedish.R
 import com.example.sidedish.databinding.ActivityHomeBinding
 import com.example.sidedish.ui.home.HomeViewModel
-import com.example.sidedish.ui.viewmodel.MenuListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -31,7 +28,7 @@ class HomeActivity : AppCompatActivity() {
     private fun setupObservers() {
         viewModel.jwtLoadCompleteEvent.observe(this) {
             findNavController(R.id.loginFragment)
-                .navigate(R.id.action_loginFragment_to_homeFragment)
+                .navigate(R.id.action_loginFragment_to_menuFragment)
         }
     }
 

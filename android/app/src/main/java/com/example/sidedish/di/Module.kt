@@ -1,9 +1,10 @@
 package com.example.sidedish.di
 
-import com.example.sidedish.data.datasource.MenuListDataSource
-import com.example.sidedish.data.repository.MenuListRepository
+import com.example.sidedish.data.datasource.DataSourceImpl
+import com.example.sidedish.data.repository.Repository
 import com.example.sidedish.network.ApiClient
 import com.example.sidedish.network.AuthApi
+import com.example.sidedish.network.MenuListApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -51,6 +52,17 @@ object NetworkModule {
             .build()
             .create(AuthApi::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun provideMenuListApi(okHttpClient: OkHttpClient): MenuListApi {
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(MenuListApi::class.java)
+    }
 }
 
 @Module
@@ -59,8 +71,8 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideMenuDataSource(apiClient: ApiClient): MenuListDataSource {
-        return MenuListDataSource(apiClient)
+    fun provideMenuDataSource(apiClient: ApiClient): DataSourceImpl {
+        return DataSourceImpl(apiClient)
     }
 
 }
@@ -68,14 +80,14 @@ object AppModule {
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RepositoryModule {
+object RModule {
 
     @Singleton
     @Provides
     fun provideRepository(
-        menuListDataSource: MenuListDataSource
-    ): MenuListRepository {
-        return MenuListRepository(menuListDataSource)
+        dataSourceImpl: DataSourceImpl
+    ): Repository {
+        return Repository(dataSourceImpl)
     }
 
 }

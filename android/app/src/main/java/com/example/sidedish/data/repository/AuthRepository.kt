@@ -1,7 +1,6 @@
 package com.example.sidedish.data.repository
 
-import com.example.sidedish.data.dto.JwtDTO
-import com.example.sidedish.data.model.Jwt
+import com.example.sidedish.model.Jwt
 
 interface AuthRepository {
 

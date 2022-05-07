@@ -1,13 +1,12 @@
 package com.example.sidedish.ui.viewmodel
 
 import android.accounts.NetworkErrorException
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sidedish.data.Menu
-import com.example.sidedish.data.repository.MenuListRepository
+import com.example.sidedish.data.repository.Repository
 import com.example.sidedish.data.MenuModel
 import com.example.sidedish.data.OrderMenu
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,12 +14,12 @@ import kotlinx.coroutines.*
 import javax.inject.Inject
 
 private const val MAIN_MENU = 1
-private const val SOUP = 2
+const val SOUP = 2
 private const val SIDE_MENU = 3
 
 @HiltViewModel
 class MenuListViewModel @Inject constructor(
-    private val repository: MenuListRepository
+    private val repository: Repository
 ) : ViewModel() {
     private val _menu = MutableLiveData<List<MenuModel>>()
     val menu: LiveData<List<MenuModel>> = _menu
@@ -48,27 +47,27 @@ class MenuListViewModel @Inject constructor(
     }
 
     fun load() {
-        _count.value = 0
-        val supervisorJob = SupervisorJob()
-
-
-        viewModelScope.launch(supervisorJob + ceh) {
-            kotlin.runCatching {
-                listOf(
-                    async(Dispatchers.IO) { repository.getMenuList(jwt, MAIN_MENU) },
-                    async(Dispatchers.IO) { repository.getMenuList(jwt, SOUP) },
-                    async(Dispatchers.IO) { repository.getMenuList(jwt, SIDE_MENU) }
-                ).awaitAll()
-            }.onSuccess {
-                val menuList = mutableListOf<MenuModel>()
-                it.forEach { item ->
-                    menuList.addAll(item)
-                }
-                _menu.value = menuList
-            }.onFailure {
-                throw NetworkErrorException("network error")
-            }
-        }
+//        _count.value = 0
+//        val supervisorJob = SupervisorJob()
+//
+//
+//        viewModelScope.launch(supervisorJob + ceh) {
+//            kotlin.runCatching {
+//                listOf(
+////                    async(Dispatchers.IO) { repository.getMenuList(jwt, MAIN_MENU) },
+//                    async(Dispatchers.IO) { repository.getMenuList(jwt, SOUP) },
+//                    async(Dispatchers.IO) { repository.getMenuList(jwt, SIDE_MENU) }
+//                ).awaitAll()
+//            }.onSuccess {
+//                val menuList = mutableListOf<MenuModel>()
+//                it.forEach { item ->
+//                    menuList.addAll(item)
+//                }
+//                _menu.value = menuList
+//            }.onFailure {
+//                throw NetworkErrorException("network error")
+//            }
+//        }
     }
 
     fun loadFoodDetail(key: Int) {
