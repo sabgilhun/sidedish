@@ -1,7 +1,9 @@
 package com.example.sidedish.data.dto
 
 
+import com.example.sidedish.model.DiscountPolicy
 import com.example.sidedish.model.MenuListItem
+import com.example.sidedish.utils.discount
 import com.google.gson.annotations.SerializedName
 
 
@@ -35,10 +37,26 @@ fun MenuListDTO.toMenuList(): List<MenuListItem> {
 
     val menuList = mutableListOf<MenuListItem>()
 
-    // TODO
     menuList.add(MenuListItem.Category(categoryName))
-    items.forEach {
-        menuList.add(MenuListItem.Menu(""))
+    items.forEach { menuDto ->
+        val id = requireNotNull(menuDto.id)
+        val name = requireNotNull(menuDto.name)
+        val desc = menuDto.description.orEmpty()
+        val imageUrl = menuDto.mainImageLink.orEmpty()
+        val price = requireNotNull(menuDto.price)
+        val priceBeforeDiscount = menuDto.discountRate?.let { rate -> price.discount(rate) }
+        val discountPolicy = DiscountPolicy.of(menuDto.discountPoilcy)
+
+        val menu = MenuListItem.Menu(
+            id = id,
+            name = name,
+            desc = desc,
+            imageUrl = imageUrl,
+            price = price,
+            priceBeforeDiscount = priceBeforeDiscount,
+            discountPolicy = discountPolicy
+        )
+        menuList.add(menu)
     }
 
     return menuList

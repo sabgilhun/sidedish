@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.sidedish.R
 import com.example.sidedish.databinding.FragmentMenuBinding
+import com.example.sidedish.model.MenuListItem
 import com.example.sidedish.ui.adapter.MenuAdapter
 import com.example.sidedish.ui.viewmodel.MenuListViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -53,8 +54,8 @@ class MenuFragment : Fragment() {
         }
     }
 
-    private fun onItemClicked(key: Int) {
-        val bundle = bundleOf("key" to key)
+    private fun onItemClicked(menu: MenuListItem.Menu) {
+        val bundle = bundleOf("key" to menu.id)
         findNavController().navigate(R.id.action_homeFragment_to_detailFragment, bundle)
     }
 }

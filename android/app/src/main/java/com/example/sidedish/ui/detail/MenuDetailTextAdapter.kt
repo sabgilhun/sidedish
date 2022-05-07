@@ -8,9 +8,19 @@ import com.example.sidedish.R
 import java.text.DecimalFormat
 
 @BindingAdapter("priceAmount")
-fun applyPriceFormat(view: TextView, price: Int) {
+fun applyPriceFormat(view: TextView, price: Int?) {
+    price ?: return
     val decimalFormat = DecimalFormat("#,###")
     view.text = view.context.getString(R.string.currency, decimalFormat.format(price))
+}
+
+@BindingAdapter("visible")
+fun setVisible(view: View, isVisible: Boolean?) {
+    view.visibility = if (isVisible == true) {
+        View.VISIBLE
+    } else {
+        View.GONE
+    }
 }
 
 @BindingAdapter("discountedPrice", "discountRate")
