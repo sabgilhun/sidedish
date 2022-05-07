@@ -4,7 +4,7 @@ import com.example.sidedish.data.*
 import com.example.sidedish.data.dto.changeData
 import com.example.sidedish.data.dto.inputDTOToMenu
 import com.example.sidedish.data.datasource.DataSource
-import com.example.sidedish.data.dto.changeJWT
+import com.example.sidedish.data.dto.toJwt
 import retrofit2.Response
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -25,7 +25,7 @@ class MenuListRepository @Inject constructor(private val dataSource: DataSource)
     }
 
     suspend fun getJWT(code: String) =
-        dataSource.getJWT(code).getBodyOrThrow()?.changeJWT() ?: throw NullPointerException("JWT is null")
+        dataSource.getJWT(code).getBodyOrThrow()?.toJwt() ?: throw NullPointerException("JWT is null")
 
     suspend fun orderMenu(token: String, menu: OrderMenu): Boolean {
         return dataSource.orderMenu(token, menu).isSuccessful

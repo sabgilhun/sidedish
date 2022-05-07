@@ -87,14 +87,6 @@ class MenuListViewModel @Inject constructor(
         }
     }
 
-    fun getJWT(code: String, move: (() -> (Unit))) {
-        viewModelScope.launch(ceh) {
-            jwt = repository.getJWT(code)
-            Log.d("TAG", jwt)
-            move()
-        }
-    }
-
     fun orderMenu() {
         viewModelScope.launch() {
             if (_count.value == 0) {

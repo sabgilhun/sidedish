@@ -1,6 +1,7 @@
 package com.example.sidedish.data.dto
 
 
+import com.example.sidedish.data.model.Jwt
 import com.google.gson.annotations.SerializedName
 
 data class JwtDTO(
@@ -10,8 +11,7 @@ data class JwtDTO(
     val tokenType: String?
 )
 
-fun JwtDTO.changeJWT(): String? =
-    when (this.accessToken != null && this.tokenType != null) {
-        true -> "${this.tokenType} ${this.accessToken}"
-        false -> null
-    }
+fun JwtDTO.toJwt() = Jwt(
+    accessToken = requireNotNull(accessToken),
+    tokenType = requireNotNull(tokenType)
+)

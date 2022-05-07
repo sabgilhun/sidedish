@@ -6,34 +6,38 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import com.example.sidedish.R
 import com.example.sidedish.databinding.ActivityHomeBinding
+import com.example.sidedish.ui.home.HomeViewModel
 import com.example.sidedish.ui.viewmodel.MenuListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
 
-    private val binding: ActivityHomeBinding by lazy {
-        ActivityHomeBinding.inflate(layoutInflater)
-    }
+    private lateinit var binding: ActivityHomeBinding
 
-    private val viewModel: MenuListViewModel by viewModels()
+    private val viewModel: HomeViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
-        Log.d("TAG", "activity viewmodel ${viewModel.hashCode()}")
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
+
+        setupObservers()
+    }
+
+    private fun setupObservers() {
+        viewModel.jwtLoadCompleteEvent.observe(this) {
+            findNavController(R.id.loginFragment)
+                .navigate(R.id.action_loginFragment_to_homeFragment)
+        }
     }
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        val code = intent?.data?.getQueryParameter("code")
-        if (code != null) {
-            viewModel.getJWT(code) {
-                findNavController(R.id.loginFragment).navigate(R.id.action_loginFragment_to_homeFragment)
-            }
-        }
+        val code = intent?.data?.getQueryParameter("code") ?: return
+        viewModel.loadJwt(code)
     }
 }
