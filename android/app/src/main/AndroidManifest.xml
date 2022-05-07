@@ -17,7 +17,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
-            android:name=".ui.menu.HomeActivity"
+            android:name=".ui.home.HomeActivity"
             android:exported="true"
             android:launchMode="singleTask">
             <intent-filter>

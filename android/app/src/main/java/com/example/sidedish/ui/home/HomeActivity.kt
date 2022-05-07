@@ -1,4 +1,4 @@
-package com.example.sidedish.ui.menu
+package com.example.sidedish.ui.home
 
 import android.content.Intent
 import android.os.Bundle

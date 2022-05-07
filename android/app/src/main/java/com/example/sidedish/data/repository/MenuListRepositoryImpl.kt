@@ -5,7 +5,9 @@ import com.example.sidedish.data.dto.toMenuList
 import com.example.sidedish.model.MenuCategory
 import com.example.sidedish.model.MenuListItem
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class MenuListRepositoryImpl @Inject constructor(
     private val menuListDataSource: MenuListDataSource
 ) : MenuListRepository {

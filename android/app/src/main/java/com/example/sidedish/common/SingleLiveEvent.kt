@@ -1,4 +1,4 @@
-package com.example.sidedish.ui.common
+package com.example.sidedish.common
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData

@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.sidedish.data.repository.MenuListRepository
 import com.example.sidedish.model.MenuCategory
 import com.example.sidedish.model.MenuListItem
-import com.example.sidedish.ui.common.SingleLiveEvent
+import com.example.sidedish.common.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import javax.inject.Inject

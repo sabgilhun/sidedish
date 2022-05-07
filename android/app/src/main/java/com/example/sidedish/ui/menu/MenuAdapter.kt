@@ -1,4 +1,4 @@
-package com.example.sidedish.ui.adapter
+package com.example.sidedish.ui.menu
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

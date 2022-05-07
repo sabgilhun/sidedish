@@ -12,8 +12,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.sidedish.R
 import com.example.sidedish.databinding.FragmentMenuBinding
 import com.example.sidedish.model.MenuListItem
-import com.example.sidedish.ui.adapter.MenuAdapter
-import com.example.sidedish.ui.viewmodel.MenuListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
