@@ -20,15 +20,27 @@ data class MenuDetailDTO(
     )
 }
 
-fun MenuDetailDTO.toMenuDetail(): MenuDetail = MenuDetail(
-    id = requireNotNull(id),
-    name = requireNotNull(name),
-    desc = description.orEmpty(),
-    price = requireNotNull(price),
-    priceBeforeDiscount = discountRate?.let { rate -> price.discount(rate) },
-    discountPolicy = DiscountPolicy.of(discountPolicy),
-    imageUrl = mainImageLink.orEmpty(),
-    detailImageLink = detailImageLink?.map { detailImageLink ->
+fun MenuDetailDTO.toMenuDetail(): MenuDetail {
+    val id = requireNotNull(id)
+    val name = requireNotNull(name)
+    val desc = description.orEmpty()
+    val originPrice = requireNotNull(price)
+    val price = discountRate?.let { rate -> originPrice.discount(rate) } ?: originPrice
+    val priceBeforeDiscount = if (discountRate == null) null else originPrice
+    val discountPolicy = DiscountPolicy.of(discountPolicy)
+    val imageUrl = mainImageLink.orEmpty()
+    val detailImageLink = detailImageLink?.map { detailImageLink ->
         detailImageLink.imageLinks.orEmpty()
     }.orEmpty()
-)
+
+    return MenuDetail(
+        id = id,
+        name = name,
+        desc = desc,
+        price = price,
+        priceBeforeDiscount = priceBeforeDiscount,
+        discountPolicy = discountPolicy,
+        imageUrl = imageUrl,
+        detailImageLink = detailImageLink
+    )
+}

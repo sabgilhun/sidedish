@@ -33,8 +33,9 @@ fun MenuListDTO.toMenuList(): List<MenuListItem> {
         val name = requireNotNull(menuDto.name)
         val desc = menuDto.description.orEmpty()
         val imageUrl = menuDto.mainImageLink.orEmpty()
-        val price = requireNotNull(menuDto.price)
-        val priceBeforeDiscount = menuDto.discountRate?.let { rate -> price.discount(rate) }
+        val originPrice = requireNotNull(menuDto.price)
+        val price = menuDto.discountRate?.let { rate -> originPrice.discount(rate) } ?: originPrice
+        val priceBeforeDiscount = if (menuDto.discountRate == null) null else originPrice
         val discountPolicy = DiscountPolicy.of(menuDto.discountPoilcy)
 
         val menu = MenuListItem.Menu(
