@@ -39,8 +39,7 @@ class MenuDetailViewModel @Inject constructor(
 
     fun loadMenuDetail(key: Int) {
         viewModelScope.launch(ceh) {
-            val result = menuRepository.loadMenuDetail(key)
-            _menuDetail.value = result
+            _menuDetail.value = menuRepository.loadMenuDetail(key)
         }
     }
 

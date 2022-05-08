@@ -1,7 +1,9 @@
 package com.example.sidedish.model
 
+import android.content.Context
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
+import androidx.core.content.ContextCompat
 import com.example.sidedish.R
 
 enum class DiscountPolicy(
@@ -21,6 +23,9 @@ enum class DiscountPolicy(
         textColorRes = R.color.white
     );
 
+    fun getBackgroundDrawable(context: Context) = ContextCompat.getDrawable(context, backgroundRes)
+
+    fun getTextColor(context: Context) = ContextCompat.getColor(context, textColorRes)
 
     companion object {
         fun of(

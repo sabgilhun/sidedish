@@ -74,6 +74,7 @@
                     android:layout_marginTop="4dp"
                     android:ellipsize="end"
                     app:priceAmount="@{viewModel.menuDetail.priceBeforeDiscount}"
+                    app:strike="@{true}"
                     app:visible="@{viewModel.menuDetail.priceBeforeDiscount != null}" />
 
             </LinearLayout>
@@ -91,13 +92,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="4dp"
-                    android:background="@{viewModel.menuDetail.discountPolicy.backgroundRes}"
+                    android:background="@{viewModel.menuDetail.discountPolicy.getBackgroundDrawable(context)}"
                     android:paddingStart="12dp"
                     android:paddingTop="4dp"
                     android:paddingEnd="12dp"
                     android:paddingBottom="4dp"
                     android:text="@{viewModel.menuDetail.discountPolicy.title}"
-                    android:textColor="@{viewModel.menuDetail.discountPolicy.textColorRes}" />
+                    android:textColor="@{viewModel.menuDetail.discountPolicy.getTextColor(context)}" />
             </LinearLayout>
 
             <View
