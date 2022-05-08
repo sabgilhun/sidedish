@@ -2,12 +2,10 @@ package com.example.sidedish.ui.detail
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import com.example.sidedish.R
-import java.lang.IllegalStateException
 
 class OrderCompleteDialogFragment : DialogFragment() {
 

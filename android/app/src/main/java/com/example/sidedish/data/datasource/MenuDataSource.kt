@@ -1,9 +1,8 @@
 package com.example.sidedish.data.datasource
 
-import com.example.sidedish.data.OrderMenu
 import com.example.sidedish.data.dto.MenuDetailDTO
 import com.example.sidedish.data.dto.MenuListDTO
-import retrofit2.Response
+import com.example.sidedish.model.OrderMenu
 
 interface MenuDataSource {
 

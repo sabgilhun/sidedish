@@ -1,16 +1,15 @@
 package com.example.sidedish.ui.detail
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.sidedish.R
 import com.example.sidedish.databinding.FragmentDetailBinding
-import com.example.sidedish.ui.adapter.ImageViewPagerAdapter
 import com.example.sidedish.ui.animation.ZoomOutPageTransformer
 import com.example.sidedish.ui.viewmodel.MenuDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint

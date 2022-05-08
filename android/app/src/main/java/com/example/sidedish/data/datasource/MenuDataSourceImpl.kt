@@ -1,8 +1,8 @@
 package com.example.sidedish.data.datasource
 
-import com.example.sidedish.data.OrderMenu
 import com.example.sidedish.data.dto.MenuDetailDTO
 import com.example.sidedish.data.dto.MenuListDTO
+import com.example.sidedish.model.OrderMenu
 import com.example.sidedish.network.MenuApi
 import javax.inject.Inject
 import javax.inject.Singleton

@@ -1,9 +1,9 @@
 package com.example.sidedish.network
 
-import com.example.sidedish.data.OrderMenu
-import com.example.sidedish.data.dto.MenuListDTO
 import com.example.sidedish.data.dto.JwtDTO
 import com.example.sidedish.data.dto.MenuDetailDTO
+import com.example.sidedish.data.dto.MenuListDTO
+import com.example.sidedish.model.OrderMenu
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -13,7 +13,7 @@ interface ApiClient {
     suspend fun getMenuList(
         @Header("Authorization") token: String,
         @Path("categoryId") category: Int
-    ):Response<MenuListDTO>
+    ): Response<MenuListDTO>
 
     @GET("/items/detail/{id}")
     suspend fun getProductDetail(

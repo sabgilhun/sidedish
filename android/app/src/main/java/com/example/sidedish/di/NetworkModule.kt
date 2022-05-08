@@ -1,8 +1,5 @@
 package com.example.sidedish.di
 
-import com.example.sidedish.data.datasource.DataSourceImpl
-import com.example.sidedish.data.repository.Repository
-import com.example.sidedish.network.ApiClient
 import com.example.sidedish.network.AuthApi
 import com.example.sidedish.network.MenuApi
 import dagger.Module
@@ -33,17 +30,6 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun create(okHttpClient: OkHttpClient): ApiClient {
-        return Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .client(okHttpClient)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(ApiClient::class.java)
-    }
-
-    @Provides
-    @Singleton
     fun provideAuthApi(okHttpClient: OkHttpClient): AuthApi {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -63,31 +49,4 @@ object NetworkModule {
             .build()
             .create(MenuApi::class.java)
     }
-}
-
-@Module
-@InstallIn(SingletonComponent::class)
-object AppModule {
-
-    @Singleton
-    @Provides
-    fun provideMenuDataSource(apiClient: ApiClient): DataSourceImpl {
-        return DataSourceImpl(apiClient)
-    }
-
-}
-
-
-@Module
-@InstallIn(SingletonComponent::class)
-object RModule {
-
-    @Singleton
-    @Provides
-    fun provideRepository(
-        dataSourceImpl: DataSourceImpl
-    ): Repository {
-        return Repository(dataSourceImpl)
-    }
-
 }

@@ -8,7 +8,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import com.example.sidedish.R
 import com.example.sidedish.databinding.ActivityHomeBinding
-import com.example.sidedish.ui.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

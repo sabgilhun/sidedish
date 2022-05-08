@@ -1,10 +1,12 @@
 package com.example.sidedish.network
 
-import com.example.sidedish.data.OrderMenu
 import com.example.sidedish.data.dto.MenuDetailDTO
 import com.example.sidedish.data.dto.MenuListDTO
-import retrofit2.Response
-import retrofit2.http.*
+import com.example.sidedish.model.OrderMenu
+import retrofit2.http.Body
+import retrofit2.http.GET
+import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface MenuApi {
 

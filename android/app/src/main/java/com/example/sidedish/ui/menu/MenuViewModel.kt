@@ -4,12 +4,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.sidedish.common.SingleLiveEvent
 import com.example.sidedish.data.repository.MenuRepository
 import com.example.sidedish.model.MenuCategory
 import com.example.sidedish.model.MenuListItem
-import com.example.sidedish.common.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel

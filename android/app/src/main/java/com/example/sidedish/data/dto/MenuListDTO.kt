@@ -1,10 +1,9 @@
 package com.example.sidedish.data.dto
 
 
+import com.example.sidedish.common.discount
 import com.example.sidedish.model.DiscountPolicy
 import com.example.sidedish.model.MenuListItem
-import com.example.sidedish.common.discount
-import com.google.gson.annotations.SerializedName
 
 
 data class MenuListDTO(

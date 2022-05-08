@@ -1,4 +1,4 @@
-package com.example.sidedish.data
+package com.example.sidedish.model
 
 data class OrderMenu(
     val itemId: Int,

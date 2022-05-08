@@ -1,4 +1,4 @@
-package com.example.sidedish.ui.adapter
+package com.example.sidedish.ui.detail
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater

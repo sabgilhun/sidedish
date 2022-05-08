@@ -2,7 +2,6 @@ package com.example.sidedish.data.dto
 
 
 import com.example.sidedish.model.Jwt
-import com.google.gson.annotations.SerializedName
 
 data class JwtDTO(
     val accessToken: String?,

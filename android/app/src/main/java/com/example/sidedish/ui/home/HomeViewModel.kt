@@ -3,8 +3,8 @@ package com.example.sidedish.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.sidedish.data.repository.AuthRepository
 import com.example.sidedish.common.SingleLiveEvent
+import com.example.sidedish.data.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
