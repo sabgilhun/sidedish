@@ -1,5 +1,6 @@
 package com.example.sidedish.data.datasource
 
+import com.example.sidedish.data.OrderMenu
 import com.example.sidedish.data.dto.MenuDetailDTO
 import com.example.sidedish.data.dto.MenuListDTO
 import com.example.sidedish.network.MenuApi
@@ -18,4 +19,8 @@ class MenuDataSourceImpl @Inject constructor(
     override suspend fun loadMenuDetail(
         id: Int
     ): MenuDetailDTO = menuApi.getProductDetail(id)
+
+    override suspend fun orderMenu(
+        orderMenu: OrderMenu
+    ) = menuApi.orderMenu(orderMenu)
 }

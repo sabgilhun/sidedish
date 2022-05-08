@@ -48,35 +48,24 @@ class MenuDetailFragment : Fragment() {
         setupObservers()
 
         viewModel.loadMenuDetail(key)
-
-//
-//        with(binding) {
-//            lifecycleOwner = this@MenuDetailFragment
-//            menuViewModel = viewModel
-//            btOrder.setOnClickListener {
-//                viewModel.orderMenu()
-//                val dialog = OrderDialog()
-//                dialog.show(
-//                    this@MenuDetailFragment.parentFragmentManager,
-//                    "OrderCompleteDialogFragment"
-//                )
-//            }
-//        }
     }
 
     private fun setupViews() {
         with(binding) {
-            btOrder.setOnClickListener {
-                this@MenuDetailFragment.viewModel.orderMenu()
-            }
             pagerDetailImage.adapter = adapter
             pagerDetailImage.setPageTransformer(ZoomOutPageTransformer())
         }
     }
 
     private fun setupObservers() {
-        viewModel.menuDetail.observe(viewLifecycleOwner) {
-            adapter.replaceAll(mutableListOf(it.imageUrl))
+        with(viewModel) {
+            menuDetail.observe(viewLifecycleOwner) {
+                adapter.replaceAll(mutableListOf(it.imageUrl))
+            }
+            menuOrderCompleteEvent.observe(viewLifecycleOwner) {
+                val orderCompleteDialog = OrderCompleteDialogFragment.newInstance()
+                orderCompleteDialog.show(parentFragmentManager, "OrderCompleteDialogFragment")
+            }
         }
     }
 }
