@@ -1,4 +1,4 @@
-package com.example.sidedish.di
+package com.example.sidedish
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
