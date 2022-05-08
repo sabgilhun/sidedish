@@ -27,7 +27,8 @@ class HomeViewModel @Inject constructor(
 
     fun loadJwt(authenticationCode: String) {
         viewModelScope.launch(ceh) {
-            authRepository.loadJwt(authenticationCode)
+            val jwt = authRepository.loadJwt(authenticationCode)
+            authRepository.saveJwt(jwt)
             _jwtLoadCompleteEvent.call()
         }
     }

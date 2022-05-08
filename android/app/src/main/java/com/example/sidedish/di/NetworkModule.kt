@@ -1,5 +1,6 @@
 package com.example.sidedish.di
 
+import com.example.sidedish.data.AuthInterceptor
 import com.example.sidedish.network.AuthApi
 import com.example.sidedish.network.MenuApi
 import dagger.Module
@@ -10,6 +11,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -19,6 +21,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
+    @Named("login")
     fun provideOkHttpClient(): OkHttpClient {
         val logger = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
@@ -30,7 +33,24 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideAuthApi(okHttpClient: OkHttpClient): AuthApi {
+    @Named("jwt")
+    fun provideJwtOkHttpClient(
+        authInterceptor: AuthInterceptor
+    ): OkHttpClient {
+        val logger = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
+        return OkHttpClient.Builder()
+            .addInterceptor(authInterceptor)
+            .addInterceptor(logger)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideAuthApi(
+        @Named("login") okHttpClient: OkHttpClient
+    ): AuthApi {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(okHttpClient)
@@ -41,7 +61,9 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideMenuListApi(okHttpClient: OkHttpClient): MenuApi {
+    fun provideMenuListApi(
+        @Named("jwt") okHttpClient: OkHttpClient
+    ): MenuApi {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(okHttpClient)
