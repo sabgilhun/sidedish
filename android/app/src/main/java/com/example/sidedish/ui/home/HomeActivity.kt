@@ -2,6 +2,7 @@ package com.example.sidedish.ui.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -28,6 +29,9 @@ class HomeActivity : AppCompatActivity() {
         viewModel.jwtLoadCompleteEvent.observe(this) {
             findNavController(R.id.loginFragment)
                 .navigate(R.id.action_loginFragment_to_menuFragment)
+        }
+        viewModel.error.observe(this) {
+            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
         }
     }
 

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -64,6 +65,10 @@ class MenuDetailFragment : Fragment() {
             menuOrderCompleteEvent.observe(viewLifecycleOwner) {
                 val orderCompleteDialog = OrderCompleteDialogFragment.newInstance()
                 orderCompleteDialog.show(parentFragmentManager, "OrderCompleteDialogFragment")
+            }
+            error.observe(viewLifecycleOwner) {
+                val context = context ?: return@observe
+                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
             }
         }
     }
