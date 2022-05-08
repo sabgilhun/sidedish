@@ -6,24 +6,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.sidedish.R
-import com.example.sidedish.data.FoodImage
 import com.example.sidedish.databinding.FragmentDetailBinding
 import com.example.sidedish.ui.adapter.ImageViewPagerAdapter
 import com.example.sidedish.ui.animation.ZoomOutPageTransformer
-import com.example.sidedish.ui.viewmodel.MenuListViewModel
+import com.example.sidedish.ui.viewmodel.MenuDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MenuDetailFragment : Fragment() {
 
-    private val binding: FragmentDetailBinding by lazy {
-        FragmentDetailBinding.inflate(layoutInflater)
-    }
+    private val key: Int by lazy { requireNotNull(arguments?.getInt("key")) }
+    private val viewModel: MenuDetailViewModel by viewModels()
+    private val adapter = ImageViewPagerAdapter()
 
-    private val viewModel: MenuListViewModel by activityViewModels()
+    private lateinit var binding: FragmentDetailBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,37 +32,51 @@ class MenuDetailFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        binding = FragmentDetailBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = this
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.selectedFoodDetail.observe(viewLifecycleOwner) { detail ->
-            viewModel.pushBackCountToZero()
-            val imageList = mutableListOf<FoodImage>()
-            with(binding) {
-                foodDetail = detail
-                imageList.add(FoodImage(detail.mainImageLink!!, 1))
-                val adapter = ImageViewPagerAdapter().apply {
-                    submitList(imageList)
-                }
-                pagerDetailImage.adapter = adapter
-                pagerDetailImage.setPageTransformer(ZoomOutPageTransformer())
-            }
-        }
+        setupViews()
+        setupObservers()
 
+        viewModel.loadMenuDetail(key)
+
+//
+//        with(binding) {
+//            lifecycleOwner = this@MenuDetailFragment
+//            menuViewModel = viewModel
+//            btOrder.setOnClickListener {
+//                viewModel.orderMenu()
+//                val dialog = OrderDialog()
+//                dialog.show(
+//                    this@MenuDetailFragment.parentFragmentManager,
+//                    "OrderCompleteDialogFragment"
+//                )
+//            }
+//        }
+    }
+
+    private fun setupViews() {
         with(binding) {
-            lifecycleOwner = this@MenuDetailFragment
-            menuViewModel = viewModel
             btOrder.setOnClickListener {
-                viewModel.orderMenu()
-                val dialog = OrderDialog()
-                dialog.show(this@MenuDetailFragment.parentFragmentManager, "OrderCompleteDialogFragment")
+                this@MenuDetailFragment.viewModel.orderMenu()
             }
+            pagerDetailImage.adapter = adapter
+            pagerDetailImage.setPageTransformer(ZoomOutPageTransformer())
+        }
+    }
+
+    private fun setupObservers() {
+        viewModel.menuDetail.observe(viewLifecycleOwner) {
+            adapter.replaceAll(mutableListOf(it.imageUrl))
         }
     }
 }

@@ -1,7 +1,5 @@
 package com.example.sidedish.data
 
-import com.example.sidedish.data.dto.DetailImageLinkDTO
-
 data class Menu(
     val description: String?,
     val discountPolicy: String?,
@@ -11,7 +9,7 @@ data class Menu(
     val name: String?,
     val price: Int?,
     val detailImageLink: List<DetailImageLinks>? = null
-): MenuModel()
+) : MenuModel()
 
 data class DetailImageLinks(
     val id: Int?,

@@ -4,7 +4,7 @@ import com.example.sidedish.data.datasource.DataSourceImpl
 import com.example.sidedish.data.repository.Repository
 import com.example.sidedish.network.ApiClient
 import com.example.sidedish.network.AuthApi
-import com.example.sidedish.network.MenuListApi
+import com.example.sidedish.network.MenuApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -55,13 +55,13 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideMenuListApi(okHttpClient: OkHttpClient): MenuListApi {
+    fun provideMenuListApi(okHttpClient: OkHttpClient): MenuApi {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(MenuListApi::class.java)
+            .create(MenuApi::class.java)
     }
 }
 

@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.sidedish.data.repository.MenuListRepository
+import com.example.sidedish.data.repository.MenuRepository
 import com.example.sidedish.model.MenuCategory
 import com.example.sidedish.model.MenuListItem
 import com.example.sidedish.common.SingleLiveEvent
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MenuViewModel @Inject constructor(
-    private val menuListRepository: MenuListRepository
+    private val menuRepository: MenuRepository
 ) : ViewModel() {
 
     private val _menu = MutableLiveData<List<MenuListItem>>()
@@ -30,9 +30,9 @@ class MenuViewModel @Inject constructor(
     fun loadMenuList() {
         viewModelScope.launch(ceh) {
             val results = listOf(
-                async { menuListRepository.loadMenuList(MenuCategory.MAIN_MENU) },
-                async { menuListRepository.loadMenuList(MenuCategory.SOUP) },
-                async { menuListRepository.loadMenuList(MenuCategory.SIDE_MENU) }
+                async { menuRepository.loadMenuList(MenuCategory.MAIN_MENU) },
+                async { menuRepository.loadMenuList(MenuCategory.SOUP) },
+                async { menuRepository.loadMenuList(MenuCategory.SIDE_MENU) }
             ).awaitAll()
 
             val totalMenuList = mutableListOf<MenuListItem>().apply {

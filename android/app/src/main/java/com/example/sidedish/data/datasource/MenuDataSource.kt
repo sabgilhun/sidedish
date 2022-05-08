@@ -1,9 +1,12 @@
 package com.example.sidedish.data.datasource
 
+import com.example.sidedish.data.dto.MenuDetailDTO
 import com.example.sidedish.data.dto.MenuListDTO
 import retrofit2.Response
 
-interface MenuListDataSource {
+interface MenuDataSource {
 
     suspend fun loadMenuList(category: Int): MenuListDTO
+
+    suspend fun loadMenuDetail(id: Int): MenuDetailDTO
 }

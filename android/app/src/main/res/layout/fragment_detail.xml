@@ -6,12 +6,8 @@
     <data>
 
         <variable
-            name="menuViewModel"
-            type="com.example.sidedish.ui.viewmodel.MenuListViewModel" />
-
-        <variable
-            name="foodDetail"
-            type="com.example.sidedish.data.Menu" />
+            name="viewModel"
+            type="com.example.sidedish.ui.viewmodel.MenuDetailViewModel" />
 
     </data>
 
@@ -40,7 +36,7 @@
                 android:layout_marginEnd="16dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="@{foodDetail.name}" />
+                android:text="@{viewModel.menuDetail.name}" />
 
             <TextView
                 android:id="@+id/tv_body"
@@ -52,7 +48,7 @@
                 android:layout_marginEnd="16dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="@{foodDetail.description}" />
+                android:text="@{viewModel.menuDetail.desc}" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -64,22 +60,21 @@
                 <TextView
                     android:id="@+id/tv_event_amount"
                     style="@style/title_style.price"
-                    discountRate="@{foodDetail.discountRate}"
-                    discountedPrice="@{foodDetail.price}"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:ellipsize="end" />
+                    android:ellipsize="end"
+                    app:priceAmount="@{viewModel.menuDetail.price}" />
 
                 <TextView
                     android:id="@+id/tv_discounted_amount"
-                    discountRate="@{foodDetail.discountRate}"
-                    originalPrice="@{foodDetail.price}"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="4dp"
                     android:layout_marginTop="4dp"
-                    android:ellipsize="end" />
+                    android:ellipsize="end"
+                    app:priceAmount="@{viewModel.menuDetail.priceBeforeDiscount}"
+                    app:visible="@{viewModel.menuDetail.priceBeforeDiscount != null}" />
 
             </LinearLayout>
 
@@ -93,30 +88,16 @@
 
                 <TextView
                     style="@style/event_style"
-                    launchingPolicy="@{foodDetail.discountPolicy}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="4dp"
-                    android:background="@drawable/background_badge_event"
-                    android:paddingTop="4dp"
-                    android:paddingBottom="4dp"
+                    android:background="@{viewModel.menuDetail.discountPolicy.backgroundRes}"
                     android:paddingStart="12dp"
-                    android:paddingEnd="12dp"
-                    android:text="@string/launching_event" />
-
-                <TextView
-                    style="@style/event_style.launching_price"
-                    eventPolicy="@{foodDetail.discountPolicy}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:background="@drawable/background_badge_limited"
                     android:paddingTop="4dp"
-                    android:paddingBottom="4dp"
-                    android:paddingStart="12dp"
                     android:paddingEnd="12dp"
-                    android:text="@string/event_promotion" />
-
+                    android:paddingBottom="4dp"
+                    android:text="@{viewModel.menuDetail.discountPolicy.title}"
+                    android:textColor="@{viewModel.menuDetail.discountPolicy.textColorRes}" />
             </LinearLayout>
 
             <View
@@ -234,7 +215,7 @@
                     android:backgroundTint="@color/white"
                     android:contentDescription="@string/subtract_amount"
                     android:elevation="0dp"
-                    android:onClick="@{()->menuViewModel.subtractCount()}"
+                    android:onClick="@{() -> viewModel.subtractCount()}"
                     android:src="@drawable/ic_minus_vector"
                     app:backgroundTint="@color/white" />
 
@@ -246,7 +227,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="10dp"
                     android:padding="10dp"
-                    android:text="@{String.valueOf(menuViewModel.count)}" />
+                    android:text="@{String.valueOf(viewModel.count)}" />
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/fb_order_more"
@@ -256,7 +237,7 @@
                     android:backgroundTint="@color/white"
                     android:contentDescription="@string/amount_add"
                     android:elevation="0dp"
-                    android:onClick="@{()->menuViewModel.addCount()}"
+                    android:onClick="@{() -> viewModel.addCount()}"
                     android:src="@drawable/ic_baseline_add_24"
                     app:backgroundTint="@color/white" />
 
@@ -295,14 +276,14 @@
                 <TextView
                     android:id="@+id/tv_total_amount"
                     style="@style/normal_style"
-                    totalAmount="@{menuViewModel.price}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end|center"
                     android:layout_marginEnd="16dp"
                     android:padding="4dp"
                     android:textSize="32sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    app:priceAmount="@{viewModel.price}" />
 
             </LinearLayout>
 
@@ -317,35 +298,32 @@
 
             <ImageView
                 android:id="@+id/iv_detail1"
-                imageUrl="@{foodDetail.detailImageLink[0].imageLink}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="48dp"
                 android:layout_marginEnd="16dp"
-                android:scaleType="fitXY" />
+                android:scaleType="fitXY"
+                app:imageUrl="@{viewModel.menuDetail.detailImageLink[0]}" />
 
             <ImageView
                 android:id="@+id/iv_detail2"
-                imageUrl="@{foodDetail.detailImageLink[0].imageLink}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:scaleType="fitXY" />
+                android:scaleType="fitXY"
+                app:imageUrl="@{viewModel.menuDetail.detailImageLink[0]}" />
 
             <ImageView
                 android:id="@+id/iv_detail3"
-                imageUrl="@{foodDetail.detailImageLink[0].imageLink}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:scaleType="fitXY" />
+                android:scaleType="fitXY"
+                app:imageUrl="@{viewModel.menuDetail.detailImageLink[0]}" />
 
         </LinearLayout>
-
     </androidx.core.widget.NestedScrollView>
-
-
 </layout>
